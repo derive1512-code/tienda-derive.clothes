@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dérive</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background: #000;
+      text-align: center;
+      padding: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header img {
+      max-height: 80px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    nav {
+      background: #111;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 10px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .carousel {
+      width: 80%;
+      margin: 20px auto;
+      text-align: center;
+    }
+    .carousel img {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 10px;
+    }
+    .carousel button {
+      margin: 10px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .socials {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .socials img {
+      width: 40px;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+    .product {
+      background: #111;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      width: 200px;
+    }
+    .product img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    .modal-content {
+      background: #111;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 400px;
+    }
+    .modal-content img {
+      max-width: 100%;
+      max-height: 250px;
+      border-radius: 10px;
+    }
+    .modal-content h2 {
+      margin: 10px 0;
+    }
+    .sizes button {
+      margin: 5px;
+      padding: 8px 15px;
+      cursor: pointer;
+    }
+    .modal button.close {
+      margin-top: 15px;
+      background: red;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+    }
+
+    /* Carrito */
+    .cart {
+      background: #111;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px auto;
+      width: 80%;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .cart-item button {
+      background: red;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    #checkoutBtn {
+      margin-top: 10px;
+      background: green;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logo -->
+  <header>
+    <img src="img/logo.png" alt="Logo de la marca">
+  </header>
+
+  <!-- Navegación -->
+  <nav>
+    <a onclick="showSection('inicio')">Inicio</a>
+    <a onclick="showSection('productos')">Productos</a>
+    <a onclick="showSection('carrito')">Carrito</a>
+  </nav>
+
+  <!-- Inicio -->
+  <section id="inicio" class="carousel">
+    <img id="inicio-img" src="img/inicio1.png" alt="Inicio">
+    <div>
+      <button onclick="prevInicio()">⟨</button>
+      <button onclick="nextInicio()">⟩</button>
+    </div>
+    <div class="socials">
+      <a href="https://instagram.com" target="_blank"><img src="img/instagram.png" alt="Instagram"></a>
+      <a href="https://tiktok.com" target="_blank"><img src="img/tiktok.png" alt="TikTok"></a>
+    </div>
+  </section>
+
+  <!-- Productos -->
+  <section id="productos" style="display:none;">
+    <div class="products">
+      <div class="product" onclick="openModal('Drift into Adventure')">
+        <img src="img/drift1.png" alt="Drift">
+        <h3>Drift into Adventure</h3>
+        <p>S/ 54.90</p>
+      </div>
+      <div class="product" onclick="openModal('True Style Shirt')">
+        <img src="img/true1.png" alt="True">
+        <h3>True Style Shirt</h3>
+        <p>S/ 54.90</p>
+      </div>
+      <div class="product" onclick="openModal('Strive for the Future')">
+        <img src="img/strive1.png" alt="Strive">
+        <h3>Strive for the Future</h3>
+        <p>S/ 49.90</p>
+      </div>
+      <div class="product" onclick="openModal('Boundless Style Shirt')">
+        <img src="img/boundless1.png" alt="Boundless">
+        <h3>Boundless Style Shirt</h3>
+        <p>S/ 54.90</p>
+      </div>
+      <div class="product" onclick="openModal('Pisco Sour')">
+        <img src="img/pisco1.png" alt="Pisco">
+        <h3>Pisco Sour</h3>
+        <p>S/ 59.90</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal de producto -->
+  <div class="modal" id="productModal">
+    <div class="modal-content">
+      <h2 id="modal-title"></h2>
+      <img id="modal-img" src="" alt="Producto">
+      <div>
+        <button onclick="prevProductImg()">⟨</button>
+        <button onclick="nextProductImg()">⟩</button>
+      </div>
+      <p id="modal-price"></p>
+      <div class="sizes" id="modal-sizes"></div>
+      <button onclick="addToCart()">Añadir al carrito</button>
+      <button class="close" onclick="closeModal()">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- Carrito -->
+  <section id="carrito" style="display:none;">
+    <div class="cart">
+      <h2>Carrito</h2>
+      <div id="cart-items"></div>
+      <button id="checkoutBtn">Pagar</button>
+    </div>
+  </section>
+
+  <script>
+    // ------------------ Inicio ------------------
+    let inicioIndex = 1;
+    function showInicio() {
+      document.getElementById("inicio-img").src = "img/inicio" + inicioIndex + ".png";
+    }
+    function prevInicio() {
+      inicioIndex = (inicioIndex === 1) ? 14 : inicioIndex - 1;
+      showInicio();
+    }
+    function nextInicio() {
+      inicioIndex = (inicioIndex === 14) ? 1 : inicioIndex + 1;
+      showInicio();
+    }
+
+    // ------------------ Secciones ------------------
+    function showSection(section) {
+      document.getElementById("inicio").style.display = "none";
+      document.getElementById("productos").style.display = "none";
+      document.getElementById("carrito").style.display = "none";
+      document.getElementById(section).style.display = "block";
+    }
+
+    // ------------------ Productos ------------------
+    const products = {
+      "Drift into Adventure": { price: "S/ 54.90", images: ["drift1.png","drift2.png","drift3.png","drift4.png"] },
+      "True Style Shirt": { price: "S/ 54.90", images: ["true1.png","true2.png","true3.png","true4.png"] },
+      "Strive for the Future": { price: "S/ 49.90", images: ["strive1.png","strive2.png","strive3.png"] },
+      "Boundless Style Shirt": { price: "S/ 54.90", images: ["boundless1.png","boundless2.png","boundless3.png","boundless4.png"] },
+      "Pisco Sour": { price: "S/ 59.90", images: ["pisco1.png","pisco2.png","pisco3.png","pisco4.png"] }
+    };
+
+    const paymentLinks = {
+      "Drift into Adventure": { S: "https://express.culqi.com/pago/4XR759TFKR", M: "https://express.culqi.com/pago/8TH3QXWLNK", L: "https://express.culqi.com/pago/OC166GW63C" },
+      "True Style Shirt": { S: "https://express.culqi.com/pago/QFPW93XY8O", M: "https://express.culqi.com/pago/EUG6FWG6G8", L: "https://express.culqi.com/pago/10BIBI0YXF" },
+      "Strive for the Future": { S: "https://express.culqi.com/pago/Z7WU1QZM5G", M: "https://express.culqi.com/pago/C8FFVNC1MY", L: "https://express.culqi.com/pago/AR0YFZMUX2" },
+      "Boundless Style Shirt": { S: "https://express.culqi.com/pago/F7E5CGA5JY", M: "https://express.culqi.com/pago/UUHHRQZSYM", L: "https://express.culqi.com/pago/HCFOKDYRCM" },
+      "Pisco Sour": { S: "https://express.culqi.com/pago/QC4GCS9NIP", M: "https://express.culqi.com/pago/NKQT58SKAV", L: "https://express.culqi.com/pago/9SOBG18T5U" }
+    };
+
+    let currentProduct = null;
+    let productImgIndex = 0;
+    let selectedSize = null;
+
+    function openModal(productName) {
+      currentProduct = productName;
+      productImgIndex = 0;
+      document.getElementById("modal-title").innerText = productName;
+      document.getElementById("modal-price").innerText = products[productName].price;
+      document.getElementById("modal-img").src = "img/" + products[productName].images[0];
+      const sizes = ["S","M","L"];
+      document.getElementById("modal-sizes").innerHTML = sizes.map(s => 
+        `<button onclick="selectSize('${s}')">${s}</button>`).join("");
+      selectedSize = null;
+      document.getElementById("productModal").style.display = "flex";
+    }
+    function closeModal() {
+      document.getElementById("productModal").style.display = "none";
+    }
+    function prevProductImg() {
+      const imgs = products[currentProduct].images;
+      productImgIndex = (productImgIndex === 0) ? imgs.length - 1 : productImgIndex - 1;
+      document.getElementById("modal-img").src = "img/" + imgs[productImgIndex];
+    }
+    function nextProductImg() {
+      const imgs = products[currentProduct].images;
+      productImgIndex = (productImgIndex === imgs.length - 1) ? 0 : productImgIndex + 1;
+      document.getElementById("modal-img").src = "img/" + imgs[productImgIndex];
+    }
+    function selectSize(size) {
+      selectedSize = size;
+      alert("Talla seleccionada: " + size);
+    }
+
+    // ------------------ Carrito ------------------
+    let cart = [];
+    function addToCart() {
+      if (!selectedSize) {
+        alert("Selecciona una talla.");
+        return;
+      }
+      cart.push({ name: currentProduct, size: selectedSize });
+      alert("Añadido al carrito.");
+      closeModal();
+      updateCart();
+    }
+    function updateCart() {
+      const container = document.getElementById("cart-items");
+      container.innerHTML = "";
+      cart.forEach((item, index) => {
+        container.innerHTML += `
+          <div class="cart-item">
+            <span>${item.name} - Talla ${item.size}</span>
+            <button onclick="removeFromCart(${index})">Eliminar</button>
+          </div>
+        `;
+      });
+    }
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    // ------------------ Checkout ------------------
+    document.getElementById("checkoutBtn").addEventListener("click", () => {
+      if (cart.length === 0) {
+        alert("Tu carrito está vacío.");
+        return;
+      }
+      const item = cart[0]; 
+      const link = paymentLinks[item.name][item.size];
+      if (link) {
+        window.open(link, "_blank");
+      } else {
+        alert("Error: no se encontró link de pago.");
+      }
+    });
+  </script>
+</body>
+</html>
